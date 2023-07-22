@@ -85,38 +85,46 @@ impl ops::Div<Vec3> for f32 {
     }
 }
 
-fn main() {
-    let v1 = Vec3 {
-        x: 0.0,
-        y: 1.0,
-        z: 2.0,
-    };
+#[cfg(test)]
+mod tests {
+    use crate::Vec3;
 
-    let v2 = Vec3 {
-        x: 3.0,
-        y: 4.0,
-        z: 5.0,
-    };
+    #[test]
+    fn it_works() {
+        // let result = 2 + 2;
+        // assert_eq!(result, 4);
+        let v1 = Vec3 {
+            x: 0.0,
+            y: 1.0,
+            z: 2.0,
+        };
 
-    let mut v3;
+        let v2 = Vec3 {
+            x: 3.0,
+            y: 4.0,
+            z: 5.0,
+        };
 
-    // Vec3 + Vec3
-    v3 = v1 + v2;
-    println!("{:?}", v3);
+        let mut v3;
 
-    // Vec3 * f32
-    v3 = v1 * 2.0;
-    println!("{:?}", v3);
+        // Vec3 + Vec3
+        v3 = v1 + v2;
+        println!("{:?}", v3);
 
-    // f32 * Vec3
-    v3 = 2.0 * v1;
-    println!("{:?}", v3);
+        // Vec3 * f32
+        v3 = v1 * 2.0;
+        println!("{:?}", v3);
 
-    // Vec3 / f32
-    v3 = v1 / 2.0;
-    println!("{:?}", v3);
+        // f32 * Vec3
+        v3 = 2.0 * v1;
+        println!("{:?}", v3);
 
-    // f32 / Vec3
-    v3 = 2.0 / v1;
-    println!("{:?}", v3);
+        // Vec3 / f32
+        v3 = v1 / 2.0;
+        println!("{:?}", v3);
+
+        // f32 / Vec3
+        v3 = 2.0 / v1;
+        println!("{:?}", v3);
+    }
 }
