@@ -7,6 +7,19 @@ struct Vec3 {
     z: f32,
 }
 
+impl Vec3 {
+    /**
+     * Vector Length
+     */
+
+    fn length(&self) -> f32 {
+        let x = self.x;
+        let y = self.y;
+        let z = self.z;
+        return f32::sqrt(x * x + y * y + z * z);
+    }
+}
+
 /**
  * Vector Addition
  */
@@ -78,6 +91,7 @@ impl ops::Div<Vec3> for f32 {
 #[cfg(test)]
 mod tests {
     use super::Vec3;
+    use assert_approx_eq::assert_approx_eq;
 
     #[test]
     fn vector_addition() {
@@ -158,5 +172,18 @@ mod tests {
             },
             result
         );
+    }
+
+    #[test]
+    fn vector_length() {
+        let v1 = Vec3 {
+            x: -f32::sqrt(2.0) / 2.0,
+            y: 0.0,
+            z: f32::sqrt(2.0) / 2.0,
+        };
+        let result: f32;
+
+        result = v1.length();
+        assert_approx_eq!(1.0, result);
     }
 }
