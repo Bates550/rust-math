@@ -1,7 +1,7 @@
 use std::ops;
 
 #[derive(Debug, PartialEq, Copy, Clone)]
-struct Vec3 {
+pub struct Vec3 {
     x: f32,
     y: f32,
     z: f32,
@@ -12,11 +12,43 @@ impl Vec3 {
      * Vector Length
      */
 
-    fn length(&self) -> f32 {
+    pub fn length(&self) -> f32 {
         let x = self.x;
         let y = self.y;
         let z = self.z;
-        return f32::sqrt(x * x + y * y + z * z);
+        f32::sqrt(x * x + y * y + z * z)
+    }
+
+    /**
+     * Vector Length Squared
+     */
+
+    pub fn length_squared(&self) -> f32 {
+        let x = self.x;
+        let y = self.y;
+        let z = self.z;
+        x * x + y * y + z * z
+    }
+
+    /**
+     * Vector Normalize
+     */
+
+    pub fn normalize(&self) -> Vec3 {
+        let length_sq = self.length_squared();
+        if length_sq == 0.0 {
+            Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            };
+        }
+        let reciprocal = 1.0 / f32::sqrt(length_sq);
+        Vec3 {
+            x: self.x * reciprocal,
+            y: self.y * reciprocal,
+            z: self.z * reciprocal,
+        }
     }
 }
 
@@ -28,11 +60,11 @@ impl ops::Add<Vec3> for Vec3 {
     type Output = Vec3;
 
     fn add(self, other: Vec3) -> Vec3 {
-        return Vec3 {
+        Vec3 {
             x: self.x + other.x,
             y: self.y + other.y,
             z: self.z + other.z,
-        };
+        }
     }
 }
 
@@ -44,11 +76,11 @@ impl ops::Mul<f32> for Vec3 {
     type Output = Vec3;
 
     fn mul(self, scalar: f32) -> Vec3 {
-        return Vec3 {
+        Vec3 {
             x: self.x * scalar,
             y: self.y * scalar,
             z: self.z * scalar,
-        };
+        }
     }
 }
 
@@ -56,11 +88,11 @@ impl ops::Mul<Vec3> for f32 {
     type Output = Vec3;
 
     fn mul(self, scalar: Vec3) -> Vec3 {
-        return Vec3 {
+        Vec3 {
             x: self * scalar.x,
             y: self * scalar.y,
             z: self * scalar.z,
-        };
+        }
     }
 }
 
@@ -68,11 +100,11 @@ impl ops::Div<f32> for Vec3 {
     type Output = Vec3;
 
     fn div(self, scalar: f32) -> Vec3 {
-        return Vec3 {
+        Vec3 {
             x: self.x / scalar,
             y: self.y / scalar,
             z: self.z / scalar,
-        };
+        }
     }
 }
 
@@ -80,11 +112,11 @@ impl ops::Div<Vec3> for f32 {
     type Output = Vec3;
 
     fn div(self, scalar: Vec3) -> Vec3 {
-        return Vec3 {
+        Vec3 {
             x: self / scalar.x,
             y: self / scalar.y,
             z: self / scalar.z,
-        };
+        }
     }
 }
 
@@ -185,5 +217,56 @@ mod tests {
 
         result = v1.length();
         assert_approx_eq!(1.0, result);
+    }
+
+    #[test]
+    fn vector_length_squared() {
+        let v1 = Vec3 {
+            x: 1.0,
+            y: 2.0,
+            z: -3.0,
+        };
+        let result: f32;
+
+        result = v1.length_squared();
+        assert_approx_eq!(14.0, result);
+    }
+
+    #[test]
+    fn vector_normalize() {
+        let v1 = Vec3 {
+            x: 1.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        let mut result: Vec3;
+
+        result = v1.normalize();
+        assert_eq!(
+            Vec3 {
+                x: 1.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            result
+        );
+        assert_approx_eq!(1.0, result.length());
+
+        let v2 = Vec3 {
+            x: 1.0,
+            y: 2.0,
+            z: -3.0,
+        };
+        result = v2.normalize();
+
+        assert_eq!(
+            Vec3 {
+                x: 0.26726124,
+                y: 0.5345225,
+                z: -0.8017837
+            },
+            result
+        );
+        assert_approx_eq!(1.0, result.length());
     }
 }
