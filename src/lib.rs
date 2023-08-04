@@ -50,6 +50,18 @@ impl Vec3 {
             z: self.z * reciprocal,
         }
     }
+
+    pub fn dot(&left: &Vec3, &right: &Vec3) -> f32 {
+        return left.x * right.x + left.y * right.y + left.z * right.z;
+    }
+
+    pub fn cross(&left: &Vec3, &right: &Vec3) -> Vec3 {
+        return Vec3 {
+            x: left.y * right.z - right.y * left.z,
+            y: left.z * right.x - right.z * left.x,
+            z: left.x * right.y - right.x * left.y,
+        };
+    }
 }
 
 /**
@@ -268,5 +280,32 @@ mod tests {
             result
         );
         assert_approx_eq!(1.0, result.length());
+    }
+
+    #[test]
+    fn dot_product() {
+        let v1 = Vec3 {
+            x: 1.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        let v2 = Vec3 {
+            x: 0.0,
+            y: 1.0,
+            z: 0.0,
+        };
+        let mut result: f32;
+
+        // Two orthogonal vectors
+        result = Vec3::dot(&v1, &v2);
+        assert_eq!(0.0, result);
+
+        // Two equal vectors
+        result = Vec3::dot(&v1, &v1);
+        assert_eq!(1.0, result);
+
+        // Two opposite vectors
+        result = Vec3::dot(&(v1 * -1.0), &v1);
+        assert_eq!(-1.0, result);
     }
 }
