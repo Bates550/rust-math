@@ -308,4 +308,74 @@ mod tests {
         result = Vec3::dot(&(v1 * -1.0), &v1);
         assert_eq!(-1.0, result);
     }
+
+    #[test]
+    fn cross_product() {
+        let v1 = Vec3 {
+            x: 1.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        let v2 = Vec3 {
+            x: 0.0,
+            y: 1.0,
+            z: 0.0,
+        };
+        let zero_vec = Vec3 {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        let mut result: Vec3;
+
+        // Two orthogonal vectors
+        result = Vec3::cross(&v1, &v2);
+        assert_eq!(
+            Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 1.0,
+            },
+            result
+        );
+
+        // Two different vectors
+        result = Vec3::cross(
+            &v1,
+            &Vec3 {
+                x: 0.0,
+                y: 1.0,
+                z: 1.0,
+            },
+        );
+        assert_eq!(
+            Vec3 {
+                x: 0.0,
+                y: -1.0,
+                z: 1.0,
+            },
+            result
+        );
+
+        // Two equal vectors
+        result = Vec3::cross(&v1, &v1);
+        assert_eq!(
+            Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            result
+        );
+
+        // Two opposite vectors
+        result = Vec3::cross(&(v1 * -1.0), &v1);
+        assert_eq!(zero_vec, result);
+
+        // v1 x v2 = -(v2 x v1)
+        assert_eq!(Vec3::cross(&v1, &v2), -1.0 * Vec3::cross(&v2, &v1));
+
+        // v x 0 = 0
+        assert_eq!(Vec3::cross(&v1, &zero_vec), zero_vec);
+    }
 }
