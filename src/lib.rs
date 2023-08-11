@@ -62,6 +62,21 @@ impl Vec3 {
             z: left.x * right.y - right.x * left.y,
         };
     }
+
+    // TODO Implement Sub trait
+    // pub fn fast_cross(&left: &Vec3, &right: &Vec3) -> Vec3 {
+    //     let vec1 = Vec3 {
+    //         x: left.y * right.z,
+    //         y: left.z * right.x,
+    //         z: left.x * right.y,
+    //     };
+    //     let vec2 = Vec3 {
+    //         x: right.y * left.z,
+    //         y: right.z * left.x,
+    //         z: right.x * left.y,
+    //     };
+    //     return vec1 - vec2;
+    // }
 }
 
 /**

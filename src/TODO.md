@@ -1,9 +1,12 @@
 ## TODO
 
-- Test vector cross product
+- Implement vector subtraction
+- Implement unary - operator
+- Try "optimized" cross product implementation
 
 ## DONE
 
+x Test vector cross product
 x Implement vector cross product
 x Implement vector dot product
 x Implement length squared
