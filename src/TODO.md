@@ -1,9 +1,8 @@
 ## TODO
 
-- Try "optimized" cross product implementation
-
 ## DONE
 
+x Try "optimized" cross product implementation
 x Implement unary - operator
 x Implement vector subtraction
 x Test vector cross product

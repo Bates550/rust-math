@@ -63,20 +63,19 @@ impl Vec3 {
         };
     }
 
-    // TODO Implement Sub trait
-    // pub fn fast_cross(&left: &Vec3, &right: &Vec3) -> Vec3 {
-    //     let vec1 = Vec3 {
-    //         x: left.y * right.z,
-    //         y: left.z * right.x,
-    //         z: left.x * right.y,
-    //     };
-    //     let vec2 = Vec3 {
-    //         x: right.y * left.z,
-    //         y: right.z * left.x,
-    //         z: right.x * left.y,
-    //     };
-    //     return vec1 - vec2;
-    // }
+    pub fn fast_cross(&left: &Vec3, &right: &Vec3) -> Vec3 {
+        let vec1 = Vec3 {
+            x: left.y * right.z,
+            y: left.z * right.x,
+            z: left.x * right.y,
+        };
+        let vec2 = Vec3 {
+            x: right.y * left.z,
+            y: right.z * left.x,
+            z: right.x * left.y,
+        };
+        return vec1 - vec2;
+    }
 }
 
 /**
@@ -462,5 +461,78 @@ mod tests {
 
         // v x 0 = 0
         assert_eq!(Vec3::cross(&v1, &zero_vec), zero_vec);
+    }
+
+    #[test]
+    fn fast_cross_product() {
+        let v1 = Vec3 {
+            x: 1.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        let v2 = Vec3 {
+            x: 0.0,
+            y: 1.0,
+            z: 0.0,
+        };
+        let zero_vec = Vec3 {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        let mut result: Vec3;
+
+        // Two orthogonal vectors
+        result = Vec3::fast_cross(&v1, &v2);
+        assert_eq!(
+            Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 1.0,
+            },
+            result
+        );
+
+        // Two different vectors
+        result = Vec3::fast_cross(
+            &v1,
+            &Vec3 {
+                x: 0.0,
+                y: 1.0,
+                z: 1.0,
+            },
+        );
+        assert_eq!(
+            Vec3 {
+                x: 0.0,
+                y: -1.0,
+                z: 1.0,
+            },
+            result
+        );
+
+        // Two equal vectors
+        result = Vec3::fast_cross(&v1, &v1);
+        assert_eq!(
+            Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            result
+        );
+
+        // Two opposite vectors
+        result = Vec3::fast_cross(&(v1 * -1.0), &v1);
+        assert_eq!(zero_vec, result);
+
+        // v1 x v2 = -(v2 x v1)
+        assert_eq!(
+            Vec3::fast_cross(&v1, &v2),
+            -1.0 * Vec3::fast_cross(&v2, &v1)
+        );
+
+        // v x 0 = 0
+        assert_eq!(Vec3::fast_cross(&v1, &zero_vec), zero_vec);
     }
 }
