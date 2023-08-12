@@ -51,9 +51,25 @@ impl Vec3 {
         }
     }
 
+    /**
+     * Vector Absolute (same as length)
+     */
+
+    pub fn abs(&self) -> f32 {
+        self.length()
+    }
+
+    /**
+     * Vector Dot
+     */
+
     pub fn dot(&left: &Vec3, &right: &Vec3) -> f32 {
         return left.x * right.x + left.y * right.y + left.z * right.z;
     }
+
+    /**
+     * Vector Cross
+     */
 
     pub fn cross(&left: &Vec3, &right: &Vec3) -> Vec3 {
         return Vec3 {
@@ -62,6 +78,10 @@ impl Vec3 {
             z: left.x * right.y - right.x * left.y,
         };
     }
+
+    /**
+     * Vector Fast Cross (maybe faster?)
+     */
 
     pub fn fast_cross(&left: &Vec3, &right: &Vec3) -> Vec3 {
         let vec1 = Vec3 {
@@ -75,6 +95,38 @@ impl Vec3 {
             z: right.x * left.y,
         };
         return vec1 - vec2;
+    }
+
+    /**
+     * Convert cartesian (x, y, z) to spherical (rho, phi, theta)
+     */
+
+    pub fn to_spherical(&self) -> Vec3 {
+        let x2 = self.x * self.x;
+        let y2 = self.y * self.y;
+        Vec3 {
+            // rho
+            x: f32::sqrt(x2 + y2 + self.z * self.z),
+            // phi (zenith)
+            y: f32::atan2(f32::sqrt(x2 + y2), self.z),
+            // theta (azimuth)
+            z: f32::atan2(self.y, self.x),
+        }
+    }
+
+    /**
+     * Convert spherical (rho, phi, theta) to cartesian (x, y, z)
+     */
+
+    pub fn to_cartesian(&self) -> Vec3 {
+        let rho = self.x;
+        let phi = self.y;
+        let theta = self.z;
+        Vec3 {
+            x: rho * f32::sin(phi) * f32::cos(theta),
+            y: rho * f32::sin(phi) * f32::sin(theta),
+            z: rho * f32::cos(phi),
+        }
     }
 }
 
@@ -534,5 +586,69 @@ mod tests {
 
         // v x 0 = 0
         assert_eq!(Vec3::fast_cross(&v1, &zero_vec), zero_vec);
+    }
+
+    #[test]
+    fn to_spherical() {
+        // zero vector
+        assert_eq!(
+            (Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            })
+            .to_spherical(),
+            Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            }
+        );
+
+        assert_approx_eq!(
+            (Vec3 {
+                x: f32::sqrt(1.0 / 3.0),
+                y: f32::sqrt(1.0 / 3.0),
+                z: f32::sqrt(1.0 / 3.0),
+            })
+            .to_spherical(),
+            Vec3 {
+                x: 0.99999994,
+                y: 0.9553166,
+                z: 0.7853982,
+            }
+        );
+    }
+
+    #[test]
+    fn to_cartesian() {
+        // zero vector
+        assert_eq!(
+            (Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            })
+            .to_cartesian(),
+            Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            }
+        );
+
+        assert_approx_eq!(
+            (Vec3 {
+                x: 0.99999994,
+                y: 0.9553166,
+                z: 0.7853982,
+            })
+            .to_cartesian(),
+            Vec3 {
+                x: f32::sqrt(1.0 / 3.0),
+                y: f32::sqrt(1.0 / 3.0),
+                z: f32::sqrt(1.0 / 3.0),
+            }
+        );
     }
 }
