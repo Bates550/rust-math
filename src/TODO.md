@@ -1,5 +1,7 @@
 ## TODO
 
+- Implement a Line class using the generalized line equation
+
 ## DONE
 
 x Implement Vec3.abs to make assert_approx_eq! work
