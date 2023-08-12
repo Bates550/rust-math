@@ -112,6 +112,18 @@ impl ops::Sub<Vec3> for Vec3 {
 }
 
 /**
+ * Unary Negation
+ */
+
+impl ops::Neg for Vec3 {
+    type Output = Vec3;
+
+    fn neg(self) -> Vec3 {
+        -1.0 * self
+    }
+}
+
+/**
  * Scalar Multiply/Divide
  */
 
@@ -217,6 +229,22 @@ mod tests {
                 z: -3.0
             },
             result
+        );
+    }
+
+    #[test]
+    fn unary_negation() {
+        assert_eq!(
+            -(Vec3 {
+                x: 0.0,
+                y: -1.0,
+                z: 2.0
+            }),
+            Vec3 {
+                x: 0.0,
+                y: 1.0,
+                z: -2.0
+            }
         );
     }
 
