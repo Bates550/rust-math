@@ -4,6 +4,7 @@
 
 ## DONE
 
+x Move vec3 to it's own module/file
 x Implement Vec3.abs to make assert_approx_eq! work
 x Implement Vec3.to_spherical
 x Implement Vec3.to_cartesian
