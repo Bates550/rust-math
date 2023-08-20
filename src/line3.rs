@@ -19,9 +19,8 @@ impl Line3 {
 
 #[cfg(test)]
 mod tests {
-    use crate::vec3::Vec3;
-
     use super::Line3;
+    use crate::vec3::Vec3;
 
     #[test]
     fn is_point_on_line() {

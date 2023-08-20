@@ -1,9 +1,11 @@
 pub mod line3;
+pub mod plane;
 pub mod vec3;
 
 #[cfg(test)]
 mod tests {
     use super::line3::Line3;
+    use super::plane::Plane;
     use super::vec3::Vec3;
 
     #[test]
@@ -45,5 +47,17 @@ mod tests {
                 z: 0.0,
             },
         };
+    }
+
+    #[test]
+    fn instantiate_plane() {
+        let _p = Plane::new(
+            Vec3 {
+                x: 0.0,
+                y: 1.0,
+                z: 0.0,
+            },
+            1.0,
+        );
     }
 }
